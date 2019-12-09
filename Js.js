@@ -942,7 +942,6 @@ function animate() {
   abShop.draw();
   shop.colision();
   abShop.colision();
-  Trees.firstTree();
   hp.draw();
   exp.draw();
   context.font = "30px Comic Sans MS";
