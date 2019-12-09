@@ -559,7 +559,7 @@ class Points {
     this.r = r;
   }
   draw() {
-    context.fillStyle = ("#AFEEEE");
+    context.fillStyle = ("#c8a");
     context.beginPath();
     context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, this.r, 0, Math.PI * 2, true);
     context.fill();
@@ -912,7 +912,7 @@ chooseEnemies = normalArr;
 
 function animate() {
   context.clearRect(0, 0, width, height);
-  context.fillStyle = ("#f5f5f5");
+  context.fillStyle = ("#666");
   context.fillRect(0, 0, width, height);
   safe_zone.draw();
   safe_zone2.draw();
