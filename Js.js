@@ -29,102 +29,69 @@ window.onload = function() {
   canvas.style.left = (winw - width) / 2 + "px";
   canvas.style.top = (winh - height) / 2 + "px";
 }
-window.onresize = function() {
-  var winw = window.innerWidth;
-  var winh = window.innerHeight;
-  var xvalue = winw / width;
-  var yvalue = winh / height;
-  scale = xvalue;
-  if (yvalue < xvalue) {
-    scale = yvalue
-  }
-  canvas.style.transform = "scale(" + scale + ")";
-  canvas.style.left = (winw - width) / 2 + "px";
-  canvas.style.top = (winh - height) / 2 + "px";
-};
-window.onload = function() {
-  var winw = window.innerWidth;
-  var winh = window.innerHeight;
-  var xvalue = winw / width;
-  var yvalue = winh / height;
-  scale = xvalue;
-  if (yvalue < xvalue) {
-    scale = yvalue
-  }
-  canvas.style.transform = "scale(" + scale + ")";
-  canvas.style.left = (winw - width) / 2 + "px";
-  canvas.style.top = (winh - height) / 2 + "px";
-}
-function distance(pos1, pos2){
+
+function distance(pos1, pos2) {
   return Math.sqrt(Math.pow(pos1.x - pos2.x, 2) + Math.pow(pos1.y - pos2.y, 2))
 };
 
 var treesDeath = 1;
-
 var normalR = 40;
-
 var s = 8;
 var sc = 0;
 var count = 1;
 var countS = 0;
 var level = 1;
-
 var rProtection = 1;
-
 var Pr = 1;
 var Pr1 = 1;
 var Pr2 = 1;
-
 var ShopSpd = 1;
-
 var rangeNormal = 9;
 var rangeGreen = 10;
-
 var property = 20;
-
 var secondRangeNormal = 4;
 var secondRangeGreen = 14;
-
 var bossLevel = 9;
+
 document.addEventListener("keydown", keydown, false);
 document.addEventListener("keyup", keyup, false);
 var keys = [];
 
 function keydown(e) {
   keys[e.keyCode] = true;
-  if(keys[192]){
-    if(document.getElementById('cons').style.visibility=='visible'){
+  if (keys[192]) {
+    if (document.getElementById('cons').style.visibility == 'visible') {
       document.getElementById('cons').style.visibility = 'hidden';
       document.getElementById('cons_button').style.visibility = 'hidden';
 
-  } else{
+    } else {
       document.getElementById('cons').style.visibility = 'visible';
       document.getElementById('cons_button').style.visibility = 'visible';
-        }
+    }
   }
 }
 
 function keyup(e) {
   delete keys[e.keyCode];
 
-  if (e.keyCode=='70') {
-   if (current_loc == 0) {
-    portalTOhome.collision();
-  } else{
-    portalTOarena.collision();
-  }
+  if (e.keyCode == '70') {
+    if (current_loc == 0) {
+      portalTOhome.collision();
+    } else {
+      portalTOarena.collision();
+    }
   }
 }
 class trees {
-  constructor(x,y) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
   }
-  firstTree(){
-    if(treesDeath == 2){
+  firstTree() {
+    if (treesDeath == 2) {
       this.x -= 1;
     }
-    if (this.x == 68){
+    if (this.x == 68) {
       treesDeath = 1;
       console.log("hi")
     }
@@ -150,46 +117,46 @@ class trees {
 var damageResist = 0;
 var speedIncreased = 100;
 
-function consolEnter(){
-let command = document.getElementById('cons').value.toLowerCase();
-args = command.split(" ");
-//console.log(args);
+function consolEnter() {
+  let command = document.getElementById('cons').value.toLowerCase();
+  args = command.split(" ");
+  //console.log(args);
 
-//Resistance Command
-if(args[0]=='resist' && isNaN(args[1])==false && args[1]<=100 && args[1]>=0){
-  console.log(args[1] + '% reduced damage taken.');
-  damageResist = args[1];
-}
+  //Resistance Command
+  if (args[0] == 'resist' && isNaN(args[1]) == false && args[1] <= 100 && args[1] >= 0) {
+    console.log(args[1] + '% reduced damage taken.');
+    damageResist = args[1];
+  }
 
-//Speed Command
-if(args[0]=='speedup' && isNaN(args[1])==false && args[1]<=1000 && args[1]>=0){
-  console.log(args[1] + '% increased Speed.');
-  speedIncreased = args[1];
-}
+  //Speed Command
+  if (args[0] == 'speedup' && isNaN(args[1]) == false && args[1] <= 1000 && args[1] >= 0) {
+    console.log(args[1] + '% increased Speed.');
+    speedIncreased = args[1];
+  }
 
-//SC Command
-if(args[0]=='points' && isNaN(args[1])==false && args[1]<=100 && args[1]>=-100){
-  console.log(`You got ${Math.floor(args[1])} points.`);
-  sc = sc + Math.floor(args[1]);
-}
+  //SC Command
+  if (args[0] == 'points' && isNaN(args[1]) == false && args[1] <= 100 && args[1] >= -100) {
+    console.log(`You got ${Math.floor(args[1])} points.`);
+    sc = sc + Math.floor(args[1]);
+  }
 
-//Home Command
-if(args[0]=='home'){
-  console.log(`Teleporting home...`);
-      player.x=100;
-      player.y=1100;
-      current_loc = 1;
-      opacity = 1;
-}
+  //Home Command
+  if (args[0] == 'home') {
+    console.log(`Teleporting home...`);
+    player.x = 100;
+    player.y = 1100;
+    current_loc = 1;
+    opacity = 1;
+  }
 
-//Arena Command
-if(args[0]=='arena'){
-  console.log(`Teleporting arena...`);
-      player.x=50;
-      player.y=250;
-      current_loc = 0;
-      opacity = 1;
-}
+  //Arena Command
+  if (args[0] == 'arena') {
+    console.log(`Teleporting arena...`);
+    player.x = 50;
+    player.y = 250;
+    current_loc = 0;
+    opacity = 1;
+  }
 
 
 
@@ -466,13 +433,13 @@ class Portal {
     context.closePath();
 
     context.beginPath();
-    context.arc(this.x  + 50 - player.x + width / 2, this.y - player.y + height / 2, 10, 0, Math.PI * 2);
+    context.arc(this.x + 50 - player.x + width / 2, this.y - player.y + height / 2, 10, 0, Math.PI * 2);
     context.stroke();
     context.closePath();
 
     context.beginPath();
     context.lineWidth = 3;
-    context.moveTo(this.x - player.x + width / 2, this.y -25 - player.y + height / 2);
+    context.moveTo(this.x - player.x + width / 2, this.y - 25 - player.y + height / 2);
     context.lineTo(this.x - player.x + width / 2, this.y + 25 - player.y + height / 2);
     context.stroke();
     context.closePath();
@@ -496,16 +463,16 @@ class Portal {
     context.closePath();
 
   }
-  collision(){
+  collision() {
     var b1 = player.x - this.x;
     var c1 = player.y - this.y;
     var hyp1 = Math.sqrt((b1 * b1) + (c1 * c1));
-     if (hyp1 <= (player.r+40)) {
-      player.x=this.x2;
-      player.y=this.y2;
+    if (hyp1 <= (player.r + 40)) {
+      player.x = this.x2;
+      player.y = this.y2;
       current_loc = this.toLoc;
       opacity = 0.8;
-     }
+    }
   }
 }
 var current_loc = 0;
@@ -537,46 +504,48 @@ class Player {
     context.closePath();
     context.fillStyle = ("#00FFFF");
     context.beginPath();
-    context.arc(this.x - this.x + width / 2, this.y - this.y + height / 2, exp.unitExp/50, 0, Math.PI * 2, true);
+    context.arc(this.x - this.x + width / 2, this.y - this.y + height / 2, exp.unitExp / 50, 0, Math.PI * 2, true);
     context.fill();
     context.closePath();
-     if(current_loc==0){
-    if (keys['40'] && this.y < 680 - this.r || keys['83'] && this.y < 680 - this.r) {
-      this.y = this.y + this.spd;
+    if (current_loc == 0) {
+      if (keys['40'] && this.y < 680 - this.r || keys['83'] && this.y < 680 - this.r) {
+        this.y = this.y + this.spd;
+      }
+      if (keys['39'] && this.x < 1900 - this.r || keys['68'] && this.x < 1900 - this.r) {
+        this.x = this.x + this.spd;
+      }
+      if (keys['38'] && this.y > 200 + this.r || keys['87'] && this.y > 200 + this.r) {
+        this.y = this.y - this.spd;
+      }
+      if (keys['37'] && this.x > 0 + this.r || keys['65'] && this.x > 0 + this.r) {
+        this.x = this.x - this.spd;
+      }
+      if (keys['16'] && this.x > 0 + this.r) {
+        this.spd = 3;
+      } else {
+        this.spd = 5 * (speedIncreased * 0.01);
+      }
     }
-    if (keys['39'] && this.x < 1900 - this.r || keys['68'] && this.x < 1900 - this.r) {
-      this.x = this.x + this.spd;
-    }
-    if (keys['38'] && this.y > 200 + this.r || keys['87'] && this.y > 200 + this.r) {
-      this.y = this.y - this.spd;
-    }
-    if (keys['37'] && this.x > 0 + this.r || keys['65'] && this.x > 0 + this.r) {
-      this.x = this.x - this.spd;
-    }
-    if (keys['16'] && this.x > 0 + this.r) {
-      this.spd = 3;
-    } else {
-      this.spd = 5 * (speedIncreased*0.01);
-    }}
 
-    if(current_loc==1){
-    if (keys['40'] && this.y < 1500 - this.r || keys['83'] && this.y < 1500 - this.r) {
-      this.y = this.y + this.spd;
+    if (current_loc == 1) {
+      if (keys['40'] && this.y < 1500 - this.r || keys['83'] && this.y < 1500 - this.r) {
+        this.y = this.y + this.spd;
+      }
+      if (keys['39'] && this.x < 500 - this.r || keys['68'] && this.x < 500 - this.r) {
+        this.x = this.x + this.spd;
+      }
+      if (keys['38'] && this.y > 1000 + this.r || keys['87'] && this.y > 1000 + this.r) {
+        this.y = this.y - this.spd;
+      }
+      if (keys['37'] && this.x > 0 + this.r || keys['65'] && this.x > 0 + this.r) {
+        this.x = this.x - this.spd;
+      }
+      if (keys['16'] && this.x > 0 + this.r) {
+        this.spd = 3;
+      } else {
+        this.spd = 5 * (speedIncreased * 0.01);
+      }
     }
-    if (keys['39'] && this.x < 500 - this.r || keys['68'] && this.x < 500 - this.r) {
-      this.x = this.x + this.spd;
-    }
-    if (keys['38'] && this.y > 1000 + this.r || keys['87'] && this.y > 1000 + this.r) {
-      this.y = this.y - this.spd;
-    }
-    if (keys['37'] && this.x > 0 + this.r || keys['65'] && this.x > 0 + this.r) {
-      this.x = this.x - this.spd;
-    }
-    if (keys['16'] && this.x > 0 + this.r) {
-      this.spd = 3;
-    } else {
-      this.spd = 5 * (speedIncreased*0.01);
-    }}
     if (keys['13']) {
       document.getElementById('game').style.visibility = 'visible';
       document.getElementById('Menu').style.visibility = 'hidden';
@@ -590,7 +559,7 @@ class Points {
     this.r = r;
   }
   draw() {
-    context.fillStyle = ("#AFEEEE");
+    context.fillStyle = ("#c8a");
     context.beginPath();
     context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, this.r, 0, Math.PI * 2, true);
     context.fill();
@@ -627,7 +596,7 @@ class gameZone {
     context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1500, 480);
   }
 }
-class home{
+class home {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -663,7 +632,7 @@ class normalEnemies {
     var c = player.y - this.y;
     var hyp = Math.sqrt((b * b) + (c * c));
     if (hyp <= (player.r + this.r)) {
-      hp.hp -=damage - damage*(damageResist*0.01);;
+      hp.hp -= damage - damage * (damageResist * 0.01);;
     }
   }
   move() {
@@ -717,7 +686,7 @@ class slowEnemies {
     var c = player.y - this.y;
     var hyp = Math.sqrt((b * b) + (c * c));
     if (hyp <= (player.r + this.r)) {
-      hp.hp -= damage - damage*(damageResist*0.01);;
+      hp.hp -= damage - damage * (damageResist * 0.01);;
     }
     var xs = this.x;
     var ys = this.y;
@@ -726,7 +695,7 @@ class slowEnemies {
     var hyp2 = Math.sqrt((b2 * b2) + (c2 * c));
     if (hyp2 <= (player.r + this.rs)) {
       console.log(player.spd);
-      hp.hp -= 1 -1*(damageResist*0.01);;
+      hp.hp -= 1 - 1 * (damageResist * 0.01);;
     }
   }
   move() {
@@ -761,7 +730,7 @@ class slowEnemies {
   }
 }
 class BossEnemies {
-  constructor(x,y,spdX,spdY){
+  constructor(x, y, spdX, spdY) {
     this.x = x;
     this.y = y;
     this.spdX = spdX;
@@ -772,8 +741,8 @@ class BossEnemies {
     var dy = player.y - this.y;
     dx;
     dy;
-    this.x = this.x + (dx / distance(player, this)*this.spdX);
-    this.y = this.y + (dy / distance(player, this)*this.spdY);
+    this.x = this.x + (dx / distance(player, this) * this.spdX);
+    this.y = this.y + (dy / distance(player, this) * this.spdY);
     context.fillStyle = ("black");
     context.beginPath();
     context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, 30, 0, Math.PI * 2, true);
@@ -791,7 +760,7 @@ class BossEnemies {
     var c = player.y - this.y;
     var hyp = Math.sqrt((b * b) + (c * c));
     if (hyp <= (player.r + 30)) {
-      hp.hp -= damage - damage*(damageResist*0.01);;
+      hp.hp -= damage - damage * (damageResist * 0.01);;
     }
   }
   move() {
@@ -815,46 +784,46 @@ class colider {
     this.y = y;
   }
   draw() {
-if (level == property) {
-  property += 20;
-  rangeNormal += 20;
-  rangeGreen += 20;
-  secondRangeNormal += 20;
-  secondRangeGreen += 20;
-  normalR /= 1.3;
-}
+    if (level == property) {
+      property += 20;
+      rangeNormal += 20;
+      rangeGreen += 20;
+      secondRangeNormal += 20;
+      secondRangeGreen += 20;
+      normalR /= 1.3;
+    }
     context.fillStyle = ("#f0f0f0");
     context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1, 480);
     // bossLevel
-    if(player.x >= this.x && this.x == 1700 && level == bossLevel){
+    if (player.x >= this.x && this.x == 1700 && level == bossLevel) {
       console.log("Boss");
-      normalArr[count] = new normalEnemies(width/2, height/2, 100,0,15);
+      normalArr[count] = new normalEnemies(width / 2, height / 2, 100, 0, 15);
       count += 1;
       bossLevel += 10;
       chooseEnemies = normalArr;
     }
     if (player.x <= this.x && this.x == 200 && level == bossLevel) {
       console.log("Boss");
-      normalArr[count] = new normalEnemies(width/2, height/2, 100,0,15);
+      normalArr[count] = new normalEnemies(width / 2, height / 2, 100, 0, 15);
       count += 1;
       bossLevel += 10;
       chooseEnemies = normalArr;
     }
     // second norm enemie
-    if(player.x >= this.x && this.x == 1700 && level > secondRangeNormal && level < property - 10){
+    if (player.x >= this.x && this.x == 1700 && level > secondRangeNormal && level < property - 10) {
       console.log("Wow");
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR/2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
       count += 1;
       chooseEnemies = normalArr;
     }
     if (player.x <= this.x && this.x == 200 && level > secondRangeNormal && level < property - 10) {
       console.log("wow 2");
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR/2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
       count += 1;
       chooseEnemies = normalArr;
     }
     //second green enemie
-    if(player.x >= this.x && this.x == 1700 && level > secondRangeGreen && level < property){
+    if (player.x >= this.x && this.x == 1700 && level > secondRangeGreen && level < property) {
       console.log(chooseEnemies.length);
       slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2);
       countS += 1;
@@ -907,12 +876,13 @@ if (level == property) {
   }
 }
 var opacity = 1;
-function black_screen(){
+
+function black_screen() {
   context.beginPath();
   context.fillStyle = `rgba(255, 255, 255, ${opacity})`;
   context.fillRect(0, 0, width, height);
 
-  if(opacity>0){
+  if (opacity > 0) {
     opacity = opacity - 0.025;
   } else opacity = 0;
 }
@@ -929,19 +899,20 @@ var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
 var shop = new Shop(0, height / 2 + 1100);
 var abShop = new AbilityShop(0, height / 2 + 900);
 var bsEnemies = new BossEnemies(400, 400, 3, 3);
-var Trees = new trees(68,620);
+var Trees = new trees(68, 620);
 var points = [];
 for (var i = 1; i < 20; i++) {
   points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8);
 }
 var normalArr = [];
-  normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
 var slowArr = [];
 var chooseEnemies = [];
 chooseEnemies = normalArr;
+
 function animate() {
   context.clearRect(0, 0, width, height);
-  context.fillStyle = ("#f5f5f5");
+  context.fillStyle = ("#666");
   context.fillRect(0, 0, width, height);
   safe_zone.draw();
   safe_zone2.draw();
@@ -955,12 +926,12 @@ function animate() {
     points[i].draw();
     points[i].eat();
     if (points[i].eat(true)) {
-        points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8);
+      points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8);
     }
   }
-    bsEnemies.draw();
-    bsEnemies.collision();
-    bsEnemies.move();
+  bsEnemies.draw();
+  bsEnemies.collision();
+  bsEnemies.move();
   for (var i = 0; i < chooseEnemies.length; i++) {
     chooseEnemies[i].draw();
     chooseEnemies[i].collision();
