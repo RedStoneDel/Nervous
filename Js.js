@@ -163,23 +163,29 @@ function consolEnter() {
   document.getElementById('cons').value = '';
 }
 class Shop {
-  constructor(x, y) {
+  constructor(x, y, camX, camY) {
     this.x = x;
     this.y = y;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = "rgba(135,113,88,0.7)";
-    context.fillRect(this.x - player.x + width / 2, this.y - 30 - player.y - 30 + height / 2, 42, 120);
+    context.fillRect(this.x - player.x + width / 2 - dirX, this.y - 30 - player.y - 30 + height / 2 - dirY, 42, 120);
     context.fillStyle = "rgba(135,113,88,1)";
-    context.fillRect(this.x + 15 - player.x + 15 + width / 2, this.y - 30 - player.y - 30 + height / 2, 15, 120);
+    context.fillRect(this.x + 15 - player.x + 15 + width / 2 - dirX, this.y - 30 - player.y - 30 + height / 2 - dirY, 15, 120);
     context.fillStyle = "rgba(214,182,92,0.9)"
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, 50, 0.5 * Math.PI, Math.PI * 1.5, true);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 50, 0.5 * Math.PI, Math.PI * 1.5, true);
     context.fill();
     context.closePath();
     context.fillStyle = "rgba(214,182,92,0.9)"
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, 35, 0.5 * Math.PI, Math.PI * 1.5, true);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 35, 0.5 * Math.PI, Math.PI * 1.5, true);
     context.fill();
     context.closePath();
   }
@@ -396,69 +402,75 @@ class Exp {
   }
 }
 class Portal {
-  constructor(x, y, x2, y2, toLoc) {
+  constructor(x, y, x2, y2, toLoc, camX, camY) {
     this.x = x;
     this.y = y;
     this.x2 = x2;
     this.y2 = y2;
     this.toLoc = toLoc;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = "#276ad6";
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, 60, 0, Math.PI * 2);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 60, 0, Math.PI * 2);
     context.fill();
     context.closePath();
 
     context.beginPath();
     context.strokeStyle = '#ffffff';
     context.lineWidth = 4;
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, 50, 0, Math.PI * 2);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 50, 0, Math.PI * 2);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - 50 - player.y + height / 2, 10, 0, Math.PI * 2);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - 50 - player.y + height / 2 - dirY, 10, 0, Math.PI * 2);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y + 50 - player.y + height / 2, 10, 0, Math.PI * 2);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y + 50 - player.y + height / 2 - dirY, 10, 0, Math.PI * 2);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.arc(this.x - 50 - player.x + width / 2, this.y - player.y + height / 2, 10, 0, Math.PI * 2);
+    context.arc(this.x - 50 - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 10, 0, Math.PI * 2);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.arc(this.x + 50 - player.x + width / 2, this.y - player.y + height / 2, 10, 0, Math.PI * 2);
+    context.arc(this.x + 50 - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 10, 0, Math.PI * 2);
     context.stroke();
     context.closePath();
 
     context.beginPath();
     context.lineWidth = 3;
-    context.moveTo(this.x - player.x + width / 2, this.y - 25 - player.y + height / 2);
-    context.lineTo(this.x - player.x + width / 2, this.y + 25 - player.y + height / 2);
+    context.moveTo(this.x - player.x + width / 2 - dirX, this.y - 25 - player.y + height / 2 - dirY);
+    context.lineTo(this.x - player.x + width / 2 - dirX, this.y + 25 - player.y + height / 2 - dirY);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.moveTo(this.x - 25 - player.x + width / 2, this.y - player.y + height / 2);
-    context.lineTo(this.x + 25 - player.x + width / 2, this.y - player.y + height / 2);
+    context.moveTo(this.x - 25 - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY);
+    context.lineTo(this.x + 25 - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.moveTo(this.x - 20 - player.x + width / 2, this.y - 20 - player.y + height / 2);
-    context.lineTo(this.x + 20 - player.x + width / 2, this.y + 20 - player.y + height / 2);
+    context.moveTo(this.x - 20 - player.x + width / 2 - dirX, this.y - 20 - player.y + height / 2 - dirY);
+    context.lineTo(this.x + 20 - player.x + width / 2 - dirX, this.y + 20 - player.y + height / 2 - dirY);
     context.stroke();
     context.closePath();
 
     context.beginPath();
-    context.moveTo(this.x + 20 - player.x + width / 2, this.y - 20 - player.y + height / 2);
-    context.lineTo(this.x - 20 - player.x + width / 2, this.y + 20 - player.y + height / 2);
+    context.moveTo(this.x + 20 - player.x + width / 2 - dirX, this.y - 20 - player.y + height / 2 - dirY);
+    context.lineTo(this.x - 20 - player.x + width / 2 - dirX, this.y + 20 - player.y + height / 2 - dirY);
     context.stroke();
     context.closePath();
 
@@ -478,33 +490,39 @@ class Portal {
 var current_loc = 0;
 
 class Player {
-  constructor(x, y, r, spd, sp) {
+  constructor(x, y, r, spd, sp, camX, camY) {
     this.x = x;
     this.y = y;
     this.r = r;
     this.spd = spd;
     this.sp = sp;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = "rgba(214,182,92,0.5)";
     context.beginPath();
-    context.arc(this.x - this.x + width / 2, this.y - this.y + height / 2, rProtection, 0, Math.PI * 2, true);
+    context.arc(this.x - this.x + width / 1.5 - dirX, this.y - this.y + height / 2 - dirY, rProtection, 0, Math.PI * 2, true);
     context.fill();
     context.closePath();
     context.fillStyle = ("#B0C4DE");
     context.beginPath();
-    context.arc(this.x - this.x + width / 2, this.y - this.y + height / 2, this.r, 0, Math.PI * 2, true);
+    context.arc(this.x - this.x + width / 2 - dirX, this.y - this.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
     context.fill();
     context.closePath();
 
     context.fillStyle = ("#00CED1");
     context.beginPath();
-    context.arc(this.x - this.x + width / 2, this.y - this.y + height / 2, 15, 0, Math.PI * 2, true);
+    context.arc(this.x - this.x + width / 2 - dirX, this.y - this.y + height / 2 - dirY, 15, 0, Math.PI * 2, true);
     context.fill();
     context.closePath();
     context.fillStyle = ("#00FFFF");
     context.beginPath();
-    context.arc(this.x - this.x + width / 2, this.y - this.y + height / 2, exp.unitExp / 50, 0, Math.PI * 2, true);
+    context.arc(this.x - this.x + width / 2 - dirX, this.y - this.y + height / 2 - dirY, exp.unitExp / 50, 0, Math.PI * 2, true);
     context.fill();
     context.closePath();
     if (current_loc == 0) {
@@ -553,15 +571,21 @@ class Player {
   }
 }
 class Points {
-  constructor(x, y, r) {
+  constructor(x, y, r, camX, camY) {
     this.x = x;
     this.y = y;
     this.r = r;
+    this.camX = camX;
+    this.camY = camY
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = ("#c8a");
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, this.r, 0, Math.PI * 2, true);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
     context.fill();
   }
   eat(b, c, hyp) {
@@ -577,47 +601,71 @@ class Points {
   }
 }
 class safeZone {
-  constructor(x, y) {
+  constructor(x, y, camX, camY) {
     this.x = x;
     this.y = y;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw(x, y) {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = ("#dcdcdc");
-    context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 200, 480);
+    context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 200, 480);
   }
 }
 class gameZone {
-  constructor(x, y) {
+  constructor(x, y, camX, camY) {
     this.x = x;
     this.y = y;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = ("#f0f0f0");
-    context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1500, 480);
+    context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1500, 480);
   }
 }
 class home {
-  constructor(x, y) {
+  constructor(x, y, camX, camY) {
     this.x = x;
     this.y = y;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw(x, y) {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = ("#dcdcdc");
-    context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 500, 500);
+    context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 500, 500);
   }
 }
 class normalEnemies {
-  constructor(x, y, r, spdX, spdY) {
+  constructor(x, y, r, spdX, spdY, camX, camY) {
     this.x = x;
     this.y = y;
     this.r = r;
     this.spdX = spdX;
     this.spdY = spdY;
+    this.camX = camX;
+    this.camY = camY
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     context.fillStyle = ("#BC8F8F");
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, this.r, 0, Math.PI * 2, true);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
     context.fill();
 
   }
@@ -653,7 +701,7 @@ class normalEnemies {
   }
 }
 class slowEnemies {
-  constructor(x, y, r, rs, spdX, spdY, spdYS, spdXS) {
+  constructor(x, y, r, rs, spdX, spdY, spdYS, spdXS, camX, camY) {
     this.x = x;
     this.y = y;
     this.r = r;
@@ -662,17 +710,23 @@ class slowEnemies {
     this.spdY = spdY;
     this.spdXS = spdXS;
     this.spdYS = spdYS;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     var xs = this.x;
     var ys = this.y;
     context.fillStyle = "rgba(0, 255, 127, 0.09)";
     context.beginPath();
-    context.arc(xs - player.x + width / 2, ys - player.y + height / 2, this.rs, 0, Math.PI * 2, true);
+    context.arc(xs - player.x + width / 2 - dirX, ys - player.y + height / 2 - dirY, this.rs, 0, Math.PI * 2, true);
     context.fill();
     context.fillStyle = "rgba(46, 139, 87, 1)";
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, this.r, 0, Math.PI * 2, true);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
     context.fill();
   }
   collision() {
@@ -730,22 +784,26 @@ class slowEnemies {
   }
 }
 class BossEnemies {
-  constructor(x, y, spdX, spdY) {
+  constructor(x, y, spdX, spdY, camX, camY) {
     this.x = x;
     this.y = y;
     this.spdX = spdX;
     this.spdY = spdY;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/50;
+    this.camY += dirY/50;
     var dx = player.x - this.x;
     var dy = player.y - this.y;
-    dx;
-    dy;
     this.x = this.x + (dx / distance(player, this) * this.spdX);
     this.y = this.y + (dy / distance(player, this) * this.spdY);
     context.fillStyle = ("black");
     context.beginPath();
-    context.arc(this.x - player.x + width / 2, this.y - player.y + height / 2, 30, 0, Math.PI * 2, true);
+    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 30, 0, Math.PI * 2, true);
     context.fill();
 
   }
@@ -794,51 +852,36 @@ class colider {
     }
     context.fillStyle = ("#f0f0f0");
     context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1, 480);
-    // bossLevel
-    if (player.x >= this.x && this.x == 1700 && level == bossLevel) {
-      console.log("Boss");
-      normalArr[count] = new normalEnemies(width / 2, height / 2, 100, 0, 15);
-      count += 1;
-      bossLevel += 10;
-      chooseEnemies = normalArr;
-    }
-    if (player.x <= this.x && this.x == 200 && level == bossLevel) {
-      console.log("Boss");
-      normalArr[count] = new normalEnemies(width / 2, height / 2, 100, 0, 15);
-      count += 1;
-      bossLevel += 10;
-      chooseEnemies = normalArr;
-    }
     // second norm enemie
-    if (player.x >= this.x && this.x == 1700 && level > secondRangeNormal && level < property - 10) {
+    if (player.x >= this.x && this.x == 1700 && level > secondRangeNormal && level < property - 10, 100) {
       console.log("Wow");
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
       count += 1;
       chooseEnemies = normalArr;
     }
     if (player.x <= this.x && this.x == 200 && level > secondRangeNormal && level < property - 10) {
       console.log("wow 2");
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
       count += 1;
       chooseEnemies = normalArr;
     }
     //second green enemie
     if (player.x >= this.x && this.x == 1700 && level > secondRangeGreen && level < property) {
       console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2);
+      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2, 100, height/2);
       countS += 1;
       chooseEnemies = slowArr
     }
     if (player.x <= this.x && this.x == 200 && level > secondRangeGreen && level < property) {
       console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2);
+      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2, 100, height/2);
       countS += 1;
       chooseEnemies = slowArr
     }
     //first Normal enemie
     if (player.x >= this.x && this.x == 1700 && level <= rangeNormal) {
       console.log(chooseEnemies.length);
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
       count += 1;
       level += 1;
       this.x = 200;
@@ -847,7 +890,7 @@ class colider {
     }
     if (player.x <= this.x && this.x == 200 && level <= rangeNormal) {
       console.log(chooseEnemies.length);
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
       count += 1;
       level += 1;
       this.x = 1700;
@@ -857,7 +900,7 @@ class colider {
     //first Green enemie
     if (player.x >= this.x && this.x == 1700 && level >= rangeGreen) {
       console.log("chooseEnemies.length");
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2);
+      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 100, height/2);
       countS += 1;
       level += 1;
       this.x = 200;
@@ -866,7 +909,7 @@ class colider {
     }
     if (player.x <= this.x && this.x == 200 && level >= rangeGreen) {
       console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2);
+      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 100, height/2);
       countS += 1;
       level += 1;
       this.x = 1700;
@@ -886,26 +929,26 @@ function black_screen() {
     opacity = opacity - 0.025;
   } else opacity = 0;
 }
-var portalTOhome = new Portal(100, height / 2 + 250, 400, height / 2 + 1060, 1);
-var portalTOarena = new Portal(400, height / 2 + 1060, 100, height / 2 + 250, 0);
-var hideout = new home(1, 1000);
-var player = new Player(100, height / 2 + 100, 20, 5, 100);
-var safe_zone = new safeZone(1, 200);
-var safe_zone2 = new safeZone(1700, 200);
-var game_zone = new gameZone(200, 200);
+var portalTOhome = new Portal(100, height / 2 + 250, 400, height / 2 + 1060, 1, 100, height/2);
+var portalTOarena = new Portal(400, height / 2 + 1060, 100, height / 2 + 250, 0, 100, height/2);
+var hideout = new home(1, 1000, 100, height/2);
+var player = new Player(100, height / 2 + 100, 20, 5, 100, 100, height/2);
+var safe_zone = new safeZone(1, 200, 100, height/2);
+var safe_zone2 = new safeZone(1700, 200, 100, height/2);
+var game_zone = new gameZone(200, 200, 100, height/2);
 var col = new colider(1700, 200);
 var hp = new Hp(750, 370, 600);
 var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
-var shop = new Shop(0, height / 2 + 1100);
+var shop = new Shop(0, height / 2 + 1100, 100, height/2);
 var abShop = new AbilityShop(0, height / 2 + 900);
-var bsEnemies = new BossEnemies(400, 400, 3, 3);
+//var bsEnemies = new BossEnemies(400, 400, 3, 3, 100, height/2);
 var Trees = new trees(68, 620);
 var points = [];
 for (var i = 1; i < 20; i++) {
-  points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8);
+  points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8, 100, height/2);
 }
 var normalArr = [];
-normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2);
+normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
 var slowArr = [];
 var chooseEnemies = [];
 chooseEnemies = normalArr;
@@ -926,12 +969,12 @@ function animate() {
     points[i].draw();
     points[i].eat();
     if (points[i].eat(true)) {
-      points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8);
+      points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8, 100, height/2);
     }
   }
-  bsEnemies.draw();
-  bsEnemies.collision();
-  bsEnemies.move();
+  //bsEnemies.draw();
+  //bsEnemies.collision();
+  //bsEnemies.move();
   for (var i = 0; i < chooseEnemies.length; i++) {
     chooseEnemies[i].draw();
     chooseEnemies[i].collision();
