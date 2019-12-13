@@ -158,11 +158,6 @@ function consolEnter() {
     opacity = 1;
   }
 
-  //Restart Command
-  if (args[0] == 'restart') {
-    console.log(`Restarting...`);
-    restart_on_death();
-  }
 
 
   document.getElementById('cons').value = '';
@@ -342,7 +337,41 @@ class Hp {
     context.fillStyle = ("#90EE90");
     context.fillRect(this.x, this.y, this.hp, 10);
     if (this.hp <= 1) {
-      restart_on_death();
+      Pr = 1;
+      s = 8;
+      sc = 0;
+      count = 1;
+      countS = 1;
+      level = 1;
+      col.x = 1700;
+      this.hp = 750;
+      player.x = 100;
+
+      Pr = 1;
+      Pr1 = 1;
+      Pr2 = 1;
+
+      ShopSpd = 1;
+
+      rangeNormal = 9;
+      rangeGreen = 10;
+
+      secondRangeNormal = 4;
+      secondRangeGreen = 14;
+
+      property = 20;
+
+      rProtection = 1;
+      exp.exp = 750;
+      exp.unitExp = 0;
+      exp.maxExp = 750;
+      exp.plusExp = 125;
+      exp.expLevel = 0;
+      treesDeath = 2;
+      chooseEnemies.splice(0, chooseEnemies.length + 1);
+      normalArr.splice(0, normalArr.length + 1)
+      normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50);
+      chooseEnemies = normalArr;
     }
   }
 }
@@ -627,11 +656,7 @@ class normalEnemies {
     this.spdX = spdX;
     this.spdY = spdY;
     this.camX = camX;
-<<<<<<< HEAD
     this.camY = camY;
-=======
-    this.camY = camY
->>>>>>> 222e81868ec0d0fc1f8a0a2e189ce31736c4a6aa
   }
   draw() {
     let dirX = player.x - this.camX;
@@ -825,7 +850,6 @@ class colider {
       secondRangeGreen += 20;
       normalR /= 1.3;
     }
-    context.fillStyle = ("#f0f0f0");
     context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1, 480);
     // second norm enemie
     if (player.x >= this.x && this.x == 1700 && level > secondRangeNormal && level < property - 10, 100) {
@@ -904,48 +928,6 @@ function black_screen() {
     opacity = opacity - 0.025;
   } else opacity = 0;
 }
-<<<<<<< HEAD
-=======
-
-function restart_on_death(){
-  Pr = 1;
-  s = 8;
-  sc = 0;
-  count = 1;
-  countS = 1;
-  level = 1;
-  col.x = 1700;
-  hp.hp = 750;
-  player.x = 100;
-
-  Pr = 1;
-  Pr1 = 1;
-  Pr2 = 1;
-
-  ShopSpd = 1;
-
-  rangeNormal = 9;
-  rangeGreen = 10;
-
-  secondRangeNormal = 4;
-  secondRangeGreen = 14;
-
-  property = 20;
-
-  rProtection = 1;
-  exp.exp = 750;
-  exp.unitExp = 0;
-  exp.maxExp = 750;
-  exp.plusExp = 125;
-  exp.expLevel = 0;
-  treesDeath = 2;
-  chooseEnemies.splice(0, chooseEnemies.length + 1);
-  normalArr.splice(0, normalArr.length + 1)
-  normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50);
-  chooseEnemies = normalArr;
-}
-
->>>>>>> 222e81868ec0d0fc1f8a0a2e189ce31736c4a6aa
 var portalTOhome = new Portal(100, height / 2 + 250, 400, height / 2 + 1060, 1, 100, height/2);
 var portalTOarena = new Portal(400, height / 2 + 1060, 100, height / 2 + 250, 0, 100, height/2);
 var hideout = new home(1, 1000, 100, height/2);
@@ -953,11 +935,7 @@ var player = new Player(100, height / 2 + 100, 20, 5, 100, 100, height/2);
 var safe_zone = new safeZone(1, 200, 100, height/2);
 var safe_zone2 = new safeZone(1700, 200, 100, height/2);
 var game_zone = new gameZone(200, 200, 100, height/2);
-<<<<<<< HEAD
 var col = new colider(1700, 200, 100, height/2);
-=======
-var col = new colider(1700, 200);
->>>>>>> 222e81868ec0d0fc1f8a0a2e189ce31736c4a6aa
 var hp = new Hp(750, 370, 600);
 var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
 var shop = new Shop(0, height / 2 + 1100, 100, height/2);
