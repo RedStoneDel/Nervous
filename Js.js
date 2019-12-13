@@ -158,6 +158,11 @@ function consolEnter() {
     opacity = 1;
   }
 
+  //Restart Command
+  if (args[0] == 'restart') {
+    console.log(`Restarting...`);
+    restart_on_death();
+  }
 
 
   document.getElementById('cons').value = '';
@@ -337,41 +342,7 @@ class Hp {
     context.fillStyle = ("#90EE90");
     context.fillRect(this.x, this.y, this.hp, 10);
     if (this.hp <= 1) {
-      Pr = 1;
-      s = 8;
-      sc = 0;
-      count = 1;
-      countS = 1;
-      level = 1;
-      col.x = 1700;
-      this.hp = 750;
-      player.x = 100;
-
-      Pr = 1;
-      Pr1 = 1;
-      Pr2 = 1;
-
-      ShopSpd = 1;
-
-      rangeNormal = 9;
-      rangeGreen = 10;
-
-      secondRangeNormal = 4;
-      secondRangeGreen = 14;
-
-      property = 20;
-
-      rProtection = 1;
-      exp.exp = 750;
-      exp.unitExp = 0;
-      exp.maxExp = 750;
-      exp.plusExp = 125;
-      exp.expLevel = 0;
-      treesDeath = 2;
-      chooseEnemies.splice(0, chooseEnemies.length + 1);
-      normalArr.splice(0, normalArr.length + 1)
-      normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50);
-      chooseEnemies = normalArr;
+      restart_on_death();
     }
   }
 }
@@ -929,6 +900,45 @@ function black_screen() {
     opacity = opacity - 0.025;
   } else opacity = 0;
 }
+
+function restart_on_death(){
+  Pr = 1;
+  s = 8;
+  sc = 0;
+  count = 1;
+  countS = 1;
+  level = 1;
+  col.x = 1700;
+  hp.hp = 750;
+  player.x = 100;
+
+  Pr = 1;
+  Pr1 = 1;
+  Pr2 = 1;
+
+  ShopSpd = 1;
+
+  rangeNormal = 9;
+  rangeGreen = 10;
+
+  secondRangeNormal = 4;
+  secondRangeGreen = 14;
+
+  property = 20;
+
+  rProtection = 1;
+  exp.exp = 750;
+  exp.unitExp = 0;
+  exp.maxExp = 750;
+  exp.plusExp = 125;
+  exp.expLevel = 0;
+  treesDeath = 2;
+  chooseEnemies.splice(0, chooseEnemies.length + 1);
+  normalArr.splice(0, normalArr.length + 1)
+  normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50);
+  chooseEnemies = normalArr;
+}
+
 var portalTOhome = new Portal(100, height / 2 + 250, 400, height / 2 + 1060, 1, 100, height/2);
 var portalTOarena = new Portal(400, height / 2 + 1060, 100, height / 2 + 250, 0, 100, height/2);
 var hideout = new home(1, 1000, 100, height/2);
