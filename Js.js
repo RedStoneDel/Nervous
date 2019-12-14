@@ -78,7 +78,7 @@ var secondRangeNormal = 4;
 var secondRangeGreen = 14;
 var bossLevel = 9;
 
-var spdCamera = 5;
+var spdCamera = 7.5;
 
 document.addEventListener("keydown", keydown, false);
 document.addEventListener("keyup", keyup, false);
