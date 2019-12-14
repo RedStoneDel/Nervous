@@ -609,7 +609,7 @@ class safeZone {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = ("#FFB6C1");
+    context.fillStyle = ("#fadadd");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 200, 480);
   }
 }
@@ -625,7 +625,7 @@ class gameZone {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = ("#FFC0CB");
+    context.fillStyle = ("#ffebee");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1500, 480);
   }
 }
@@ -641,7 +641,7 @@ class home {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = ("#FFC0CB");
+    context.fillStyle = ("#ffebee");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 500, 500);
   }
 }
