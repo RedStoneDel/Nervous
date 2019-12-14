@@ -15,11 +15,10 @@ canvas {
 	cursor: default;
 }
 body {
-	background-color: white;
 	margin: 0px;
 	overflow: hidden;
 	font-family: Comic Sans MS;
-	background-color: #666;
+	background-color: #E0FFFF;
 }
 .consol{
 	visibility: hidden;
