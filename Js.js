@@ -53,6 +53,8 @@ var secondRangeNormal = 4;
 var secondRangeGreen = 14;
 var bossLevel = 9;
 
+var spdCamera = 5;
+
 document.addEventListener("keydown", keydown, false);
 document.addEventListener("keyup", keyup, false);
 var keys = [];
@@ -176,8 +178,8 @@ class Shop {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = "rgba(135,113,88,0.7)";
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - 30 - player.y - 30 + height / 2 - dirY, 42, 120);
     context.fillStyle = "rgba(135,113,88,1)";
@@ -384,8 +386,8 @@ class Portal {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = "#276ad6";
     context.beginPath();
     context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 60, 0, Math.PI * 2);
@@ -472,8 +474,8 @@ class Player {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = "rgba(214,182,92,0.5)";
     context.beginPath();
     context.arc(this.x - this.x + width / 1.5 - dirX, this.y - this.y + height / 2 - dirY, rProtection, 0, Math.PI * 2, true);
@@ -551,8 +553,8 @@ class Points {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = ("#c8a");
     context.beginPath();
     context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
@@ -580,8 +582,8 @@ class safeZone {
   draw(x, y) {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = ("#dcdcdc");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 200, 480);
   }
@@ -596,8 +598,8 @@ class gameZone {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = ("#f0f0f0");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1500, 480);
   }
@@ -612,8 +614,8 @@ class home {
   draw(x, y) {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = ("#dcdcdc");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 500, 500);
   }
@@ -631,8 +633,8 @@ class normalEnemies {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     context.fillStyle = ("#BC8F8F");
     context.beginPath();
     context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
@@ -686,8 +688,8 @@ class slowEnemies {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     var xs = this.x;
     var ys = this.y;
     context.fillStyle = "rgba(0, 255, 127, 0.09)";
@@ -765,8 +767,8 @@ class BossEnemies {
   draw() {
     let dirX = player.x - this.camX;
     let dirY  = player.y - this.camY;
-    this.camX += dirX/20;
-    this.camY += dirY/20;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
     var dx = player.x - this.x;
     var dy = player.y - this.y;
     this.x = this.x + (dx / distance(player, this) * this.spdX);
