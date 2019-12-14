@@ -987,8 +987,14 @@ normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, 
 var slowArr = [];
 var chooseEnemies = [];
 chooseEnemies = normalArr;
+var fps = 100;
 
-function animate() {
+function step_animate() {
+
+  setTimeout(function() {
+
+window.requestAnimationFrame(step_animate);
+
   context.clearRect(0, 0, width, height);
   context.fillStyle = ("#666");
   context.fillRect(0, 0, width, height);
@@ -1028,6 +1034,9 @@ function animate() {
   context.textAlign = "center";
   context.fillText("Level " + level, canvas.width / 2, 35);
   black_screen();
-  window.requestAnimationFrame(animate);
+
+
+
+}, 1000 / fps);
 }
-window.requestAnimationFrame(animate);
+window.requestAnimationFrame(step_animate);
