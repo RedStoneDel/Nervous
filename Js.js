@@ -993,6 +993,7 @@ function animate() {
   //abShop.draw();
   shop.colision();
   //abShop.colision();
+  //doing here nothing 
   hp.draw();
   exp.draw();
   context.font = "30px Comic Sans MS";
