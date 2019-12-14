@@ -990,9 +990,9 @@ function animate() {
   }
   player.draw();
   shop.draw();
-  abShop.draw();
+  //abShop.draw();
   shop.colision();
-  abShop.colision();
+  //abShop.colision();
   hp.draw();
   exp.draw();
   context.font = "30px Comic Sans MS";
