@@ -65,7 +65,8 @@ var s = 8;
 var sc = 0;
 var count = 1;
 var countS = 0;
-var level = 1;
+var countB = 0;
+var level = 28;
 var rProtection = 1;
 var Pr = 1;
 var Pr1 = 1;
@@ -73,7 +74,8 @@ var Pr2 = 1;
 var ShopSpd = 1;
 var rangeNormal = 9;
 var rangeGreen = 10;
-var property = 20;
+var rangeBee = 19;
+var property = 30;
 var secondRangeNormal = 4;
 var secondRangeGreen = 14;
 var bossLevel = 9;
@@ -662,7 +664,7 @@ class normalEnemies {
     this.camY += dirY/spdCamera;
     context.fillStyle = ("#BC8F8F");
     context.beginPath();
-    context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
+    context.arc(this.x - player.x + width / 2 - dirX , this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
     context.fill();
 
   }
@@ -683,16 +685,16 @@ class normalEnemies {
   move() {
     this.x += this.spdX;
     this.y += this.spdY;
-    if (this.x + normalR > 1700) {
+    if (this.x + normalR*2 > 1700 + normalR) {
       this.spdX = -this.spdX;
     }
-    if (this.x - normalR < 200) {
+    if (this.x - normalR*2 < 200 - normalR) {
       this.spdX = -this.spdX;
     }
-    if (this.y + normalR > 280) {
+    if (this.y + normalR*2 > 280 + normalR) {
       this.spdY = -this.spdY;
     }
-    if (this.y - normalR < 600) {
+    if (this.y - normalR*2 < 600 - normalR) {
       this.spdY = -this.spdY;
     }
   }
@@ -794,15 +796,10 @@ class BossEnemies {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    var dx = player.x - this.x;
-    var dy = player.y - this.y;
-    this.x = this.x + (dx / distance(player, this) * this.spdX);
-    this.y = this.y + (dy / distance(player, this) * this.spdY);
     context.fillStyle = ("black");
     context.beginPath();
     context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 30, 0, Math.PI * 2, true);
     context.fill();
-
   }
   collision() {
     var damage;
@@ -815,24 +812,42 @@ class BossEnemies {
     var c = player.y - this.y;
     var hyp = Math.sqrt((b * b) + (c * c));
     if (hyp <= (player.r + 30)) {
-      hp.hp -= damage - damage * (damageResist * 0.01);;
+        hp.hp -= damage - damage * (damageResist * 0.01);
     }
   }
   move() {
-    if (this.x + 30 > 1700) {
+    var dx = player.x - this.x;
+    var dy = player.y - this.y;
+    var b = player.x - this.x;
+    var c = player.y - this.y;
+    var hyp = Math.sqrt((b * b) + (c * c));
+    if (hyp <= (player.r + 250) && player.x > 200 && player.x < 1700) {
+    this.x += (dx / distance(player, this) * 3);
+    this.y += (dy / distance(player, this) * 3);
+    if (this.x + 50 > 1720) {
+      dx -= -3;
+    }
+    if (this.x - 50 < 180) {
+      dx -= 3;
+    }
+  } else {
+    this.x += this.spdX;
+    this.y += this.spdY;
+    if (this.x + 50 > 1720) {
       this.spdX = -this.spdX;
     }
-    if (this.x - 30 < 200) {
+    if (this.x - 50 < 180) {
       this.spdX = -this.spdX;
     }
-    if (this.y + 30 > 280) {
+    if (this.y + 50 > 280 ) {
       this.spdY = -this.spdY;
     }
-    if (this.y - 30 < 600) {
+    if (this.y - 50 < 600) {
       this.spdY = -this.spdY;
     }
+   }
   }
-}
+ }
 class colider {
   constructor(x, y,) {
     this.x = x;
@@ -840,44 +855,19 @@ class colider {
   }
   draw() {
     if (level == property) {
-      property += 20;
-      rangeNormal += 20;
-      rangeGreen += 20;
+      property += 30;
+      rangeNormal += 30;
+      rangeGreen += 30;
+      rangeBee += 30;
       secondRangeNormal += 20;
       secondRangeGreen += 20;
       normalR /= 1.3;
     }
     context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1, 480);
-    // second norm enemie
-    if (player.x >= this.x && this.x == 1700 && level > secondRangeNormal && level < property - 10, 100) {
-      console.log("Wow");
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
-      count += 1;
-      chooseEnemies = normalArr;
-    }
-    if (player.x <= this.x && this.x == 200 && level > secondRangeNormal && level < property - 10) {
-      console.log("wow 2");
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR / 2, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
-      count += 1;
-      chooseEnemies = normalArr;
-    }
-    //second green enemie
-    if (player.x >= this.x && this.x == 1700 && level > secondRangeGreen && level < property) {
-      console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2, 100, height/2);
-      countS += 1;
-      chooseEnemies = slowArr
-    }
-    if (player.x <= this.x && this.x == 200 && level > secondRangeGreen && level < property) {
-      console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, 100, 2, 2, 2, 2, 100, height/2);
-      countS += 1;
-      chooseEnemies = slowArr
-    }
     //first Normal enemie
     if (player.x >= this.x && this.x == 1700 && level <= rangeNormal) {
       console.log(chooseEnemies.length);
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 1, height/2);
       count += 1;
       level += 1;
       this.x = 200;
@@ -886,7 +876,7 @@ class colider {
     }
     if (player.x <= this.x && this.x == 200 && level <= rangeNormal) {
       console.log(chooseEnemies.length);
-      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
+      normalArr[count] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 1, height/2);
       count += 1;
       level += 1;
       this.x = 1700;
@@ -894,23 +884,42 @@ class colider {
       chooseEnemies = normalArr;
     }
     //first Green enemie
-    if (player.x >= this.x && this.x == 1700 && level >= rangeGreen) {
+    if (player.x >= this.x && this.x == 1700 && level >= rangeGreen && level <= rangeBee) {
       console.log("chooseEnemies.length");
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 100, height/2);
+      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 1, height/2);
       countS += 1;
       level += 1;
       this.x = 200;
       player.sp = 1800;
       chooseEnemies = slowArr
     }
-    if (player.x <= this.x && this.x == 200 && level >= rangeGreen) {
+    if (player.x <= this.x && this.x == 200 && level >= rangeGreen && level <= rangeBee) {
       console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 100, height/2);
+      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 1, height/2);
       countS += 1;
       level += 1;
       this.x = 1700;
       player.sp = 100;
       chooseEnemies = slowArr;
+    }
+    //First Bee enemie
+    if (player.x >= this.x && this.x == 1700 && level >= rangeBee) {
+      console.log("Hello");
+      beeArr[countB] = new BossEnemies(400, 400, 3, 3, 100, height/2);
+      countB += 1;
+      level += 1;
+      this.x = 200;
+      player.sp = 1800;
+      chooseEnemies = beeArr;
+    }
+    if (player.x <= this.x && this.x == 200 && level >= rangeBee) {
+      console.log("Bye");
+      beeArr[countB] = new BossEnemies(400, 400, 3, 3, 100, height/2);
+      countB += 1;
+      level += 1;
+      this.x = 1700;
+      player.sp = 100;
+      chooseEnemies = beeArr;
     }
   }
 }
@@ -960,7 +969,7 @@ function restart_on_death(){
   treesDeath = 2;
   chooseEnemies.splice(0, chooseEnemies.length + 1);
   normalArr.splice(0, normalArr.length + 1)
-  normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50);
+  normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50, 100, height/2);
   chooseEnemies = normalArr;
 }
 
@@ -976,7 +985,6 @@ var hp = new Hp(750, 370, 600);
 var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
 var shop = new Shop(0, height / 2 + 1100, 100, height / 2);
 var abShop = new AbilityShop(0, height / 2 + 900);
-//var bsEnemies = new BossEnemies(400, 400, 3, 3, 100, height/2);
 var Trees = new trees(68, 620);
 var points = [];
 for (var i = 1; i < 20; i++) {
@@ -985,6 +993,7 @@ for (var i = 1; i < 20; i++) {
 var normalArr = [];
 normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
 var slowArr = [];
+var beeArr = [];
 var chooseEnemies = [];
 chooseEnemies = normalArr;
 var fps = 100;
@@ -1013,9 +1022,6 @@ window.requestAnimationFrame(step_animate);
       points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8, 100, height/2);
     }
   }
-  //bsEnemies.draw();
-  //bsEnemies.collision();
-  //bsEnemies.move();
   for (var i = 0; i < chooseEnemies.length; i++) {
     chooseEnemies[i].draw();
     chooseEnemies[i].collision();
