@@ -869,6 +869,7 @@ class colider {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
+    context.fillStyle = ("#ffebee");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1, 480);
     //first Normal enemie
     if (player.x >= this.x && this.x == 1700 && level <= rangeNormal) {
