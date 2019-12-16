@@ -64,9 +64,9 @@ var normalR = 40;
 var s = 8;
 var sc = 0;
 var count = 1;
-var countS = 0;
+var countG = 0;
 var countB = 0;
-var level = 28;
+var level = 1;
 var rProtection = 1;
 var Pr = 1;
 var Pr1 = 1;
@@ -80,7 +80,7 @@ var secondRangeNormal = 4;
 var secondRangeGreen = 14;
 var bossLevel = 9;
 
-var spdCamera = 7.5;
+var spdCamera = 5;
 
 document.addEventListener("keydown", keydown, false);
 document.addEventListener("keyup", keyup, false);
@@ -505,7 +505,7 @@ class Player {
     this.camY += dirY/spdCamera;
     context.fillStyle = "rgba(214,182,92,0.5)";
     context.beginPath();
-    context.arc(this.x - this.x + width / 1.5 - dirX, this.y - this.y + height / 2 - dirY, rProtection, 0, Math.PI * 2, true);
+    context.arc(this.x - this.x + width / 2 - dirX, this.y - this.y + height / 2 - dirY, rProtection, 0, Math.PI * 2, true);
     context.fill();
     context.closePath();
     context.fillStyle = ("#B0C4DE");
@@ -849,9 +849,11 @@ class BossEnemies {
   }
  }
 class colider {
-  constructor(x, y,) {
+  constructor(x, y, camX, camY) {
     this.x = x;
     this.y = y;
+    this.camX = camX;
+    this.camY = camY;
   }
   draw() {
     if (level == property) {
@@ -863,7 +865,11 @@ class colider {
       secondRangeGreen += 20;
       normalR /= 1.3;
     }
-    context.fillRect(this.x - player.x + width / 2, this.y - player.y + height / 2, 1, 480);
+    let dirX = player.x - this.camX;
+    let dirY  = player.y - this.camY;
+    this.camX += dirX/spdCamera;
+    this.camY += dirY/spdCamera;
+    context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1, 480);
     //first Normal enemie
     if (player.x >= this.x && this.x == 1700 && level <= rangeNormal) {
       console.log(chooseEnemies.length);
@@ -886,21 +892,21 @@ class colider {
     //first Green enemie
     if (player.x >= this.x && this.x == 1700 && level >= rangeGreen && level <= rangeBee) {
       console.log("chooseEnemies.length");
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 1, height/2);
-      countS += 1;
+      slowArr[countG] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 1, height/2);
+      chooseEnemies = slowArr
+      countG += 1;
       level += 1;
       this.x = 200;
       player.sp = 1800;
-      chooseEnemies = slowArr
     }
     if (player.x <= this.x && this.x == 200 && level >= rangeGreen && level <= rangeBee) {
       console.log(chooseEnemies.length);
-      slowArr[countS] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 1, height/2);
-      countS += 1;
+      slowArr[countG] = new slowEnemies(Math.floor(Math.random() * (1200 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 10, 100, 2, 2, 2, 2, 1, height/2);
+      chooseEnemies = slowArr;
+      countG += 1;
       level += 1;
       this.x = 1700;
       player.sp = 100;
-      chooseEnemies = slowArr;
     }
     //First Bee enemie
     if (player.x >= this.x && this.x == 1700 && level >= rangeBee) {
@@ -967,8 +973,8 @@ function restart_on_death(){
   exp.plusExp = 125;
   exp.expLevel = 0;
   treesDeath = 2;
-  chooseEnemies.splice(0, chooseEnemies.length + 1);
-  normalArr.splice(0, normalArr.length + 1)
+  chooseEnemies.splice(0, chooseEnemies.length);
+  normalArr.splice(0, normalArr.length)
   normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50, 100, height/2);
   chooseEnemies = normalArr;
 }
@@ -980,7 +986,7 @@ var player = new Player(100, height / 2 + 100, 20, 5, 100, 100, height/2);
 var safe_zone = new safeZone(1, 200, 100, height/2);
 var safe_zone2 = new safeZone(1700, 200, 100, height/2);
 var game_zone = new gameZone(200, 200, 100, height/2);
-var col = new colider(1700, 200, 100, height/2);
+var col = new colider(1700, 200, 100, height/2, 100, height/2);
 var hp = new Hp(750, 370, 600);
 var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
 var shop = new Shop(0, height / 2 + 1100, 100, height / 2);
@@ -1003,8 +1009,9 @@ function step_animate() {
   setTimeout(function() {
 
 window.requestAnimationFrame(step_animate);
-
+  console.log(normalArr, chooseEnemies);
   context.clearRect(0, 0, width, height);
+    col.draw();
   context.fillStyle = ("#E0FFFF");
   context.fillRect(0, 0, width, height);
   safe_zone.draw();
@@ -1013,8 +1020,6 @@ window.requestAnimationFrame(step_animate);
   hideout.draw();
   portalTOhome.draw();
   portalTOarena.draw();
-  col.draw();
-  col.draw();
   for (var i = 1; i < points.length; i++) {
     points[i].draw();
     points[i].eat();
