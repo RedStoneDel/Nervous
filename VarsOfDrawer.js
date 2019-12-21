@@ -1,0 +1,24 @@
+var portalTOhome = new Portal(100, height / 2 + 250, 400, height / 2 + 2060, 1, 100, height/2);
+var portalTOarena = new Portal(400, height / 2 + 2060, 100, height / 2 + 250, 0, 100, height/2);
+var hideout = new home(1, 2000, 100, height/2);
+var player = new Player(100, height / 2 + 100, 20, 5, 100, 100, height/2);
+var safe_zone = new safeZone(1, 200, 100, height/2);
+var safe_zone2 = new safeZone(1700, 200, 100, height/2);
+var game_zone = new gameZone(200, 200, 100, height/2);
+var col = new colider(1700, 200, 100, height/2, 100, height/2);
+var hp = new Hp(750, 370, 600);
+var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
+var shop = new Shop(0, height / 2 + 1925, 100, height / 2);
+var abShop = new AbilityShop(0, height / 2 + 900);
+var Trees = new trees(68, 620);
+var points = [];
+var fronty = new front(1, 680, 100, height/2);
+for (var i = 1; i < 20; i++) {
+  points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8, 100, height/2);
+}
+var normalArr = [];
+normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
+var slowArr = [];
+var beeArr = [];
+var chooseEnemies = [];
+chooseEnemies = normalArr;
