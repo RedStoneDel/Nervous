@@ -3,7 +3,7 @@ function step_animate() {
 window.requestAnimationFrame(step_animate);
   context.clearRect(0, 0, width, height);
   col.draw();
-  context.fillStyle = ("#E0FFFF");
+  context.fillStyle = "rgb(145, 154, 165, 1)";
   context.fillRect(0, 0, width, height);
   fronty.draw();
   safe_zone.draw();
@@ -33,7 +33,7 @@ window.requestAnimationFrame(step_animate);
   hp.draw();
   exp.draw();
   context.font = "30px Comic Sans MS";
-  context.fillStyle = "Grey";
+  context.fillStyle = "White";
   context.textAlign = "center";
   context.fillText("Level " + level, canvas.width / 2, 35);
   black_screen();

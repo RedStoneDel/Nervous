@@ -1,19 +1,116 @@
-class front {
-  constructor(x, y, camX, camY) {
-    this.x = x;
-    this.y = y;
-    this.camX = camX;
-    this.camY = camY;
+var canvas = document.getElementById('game');
+var context = canvas.getContext('2d');
+var body = document.getElementsByTagName('body')[0];
+var width = document.getElementById('game').offsetWidth;
+var height = document.getElementById('game').offsetHeight;
+window.onresize = function() {
+  var winw = window.innerWidth;
+  var winh = window.innerHeight;
+  var xvalue = winw / width;
+  var yvalue = winh / height;
+  scale = xvalue;
+  if (yvalue < xvalue) {
+    scale = yvalue
   }
-  draw() {
-    let dirX = player.x - this.camX;
-    let dirY  = player.y - this.camY;
-    this.camX += dirX/spdCamera;
-    this.camY += dirY/spdCamera;
-    context.fillStyle = "rgba(184, 187, 194)";
-    context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1900, 350);
+  canvas.style.transform = "scale(" + scale + ")";
+  canvas.style.left = (winw - width) / 2 + "px";
+  canvas.style.top = (winh - height) / 2 + "px";
+};
+window.onload = function() {
+  var winw = window.innerWidth;
+  var winh = window.innerHeight;
+  var xvalue = winw / width;
+  var yvalue = winh / height;
+  scale = xvalue;
+  if (yvalue < xvalue) {
+    scale = yvalue
   }
+  canvas.style.transform = "scale(" + scale + ")";
+  canvas.style.left = (winw - width) / 2 + "px";
+  canvas.style.top = (winh - height) / 2 + "px";
+}
+//For all browsers
+(function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
+                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
+
+function distance(pos1, pos2) {
+  return Math.sqrt(Math.pow(pos1.x - pos2.x, 2) + Math.pow(pos1.y - pos2.y, 2))
+};
+
+var treesDeath = 1;
+var normalR = 40;
+var s = 8;
+var sc = 0;
+var count = 1;
+var countG = 0;
+var countB = 0;
+var level = 1;
+var rProtection = 1;
+var Pr = 1;
+var Pr1 = 1;
+var Pr2 = 1;
+var ShopSpd = 1;
+var rangeNormal = 9;
+var rangeGreen = 10;
+var rangeBee = 19;
+var property = 30;
+var secondRangeNormal = 4;
+var secondRangeGreen = 14;
+var bossLevel = 9;
+
+var spdCamera = 5;
+
+document.addEventListener("keydown", keydown, false);
+document.addEventListener("keyup", keyup, false);
+var keys = [];
+
+function keydown(e) {
+  keys[e.keyCode] = true;
+  if (keys[192]) {
+    if (document.getElementById('cons').style.visibility == 'visible') {
+      document.getElementById('cons').style.visibility = 'hidden';
+      document.getElementById('cons_button').style.visibility = 'hidden';
+
+    } else {
+      document.getElementById('cons').style.visibility = 'visible';
+      document.getElementById('cons_button').style.visibility = 'visible';
+    }
   }
+}
+
+function keyup(e) {
+  delete keys[e.keyCode];
+
+  if (e.keyCode == '70') {
+    if (current_loc == 0) {
+      portalTOhome.collision();
+    } else {
+      portalTOarena.collision();
+    }
+  }
+}
 class trees {
   constructor(x, y) {
     this.x = x;
@@ -44,6 +141,59 @@ class trees {
     context.arc(this.x + 70, this.y, 70, 0, Math.PI * 2, true);
     context.fill();
   }
+}
+//gameConsole
+var damageResist = 0;
+var speedIncreased = 100;
+
+function consolEnter() {
+  let command = document.getElementById('cons').value.toLowerCase();
+  args = command.split(" ");
+  //console.log(args);
+
+  //Resistance Command
+  if (args[0] == 'resist' && isNaN(args[1]) == false && args[1] <= 100 && args[1] >= 0) {
+    console.log(args[1] + '% reduced damage taken.');
+    damageResist = args[1];
+  }
+
+  //Speed Command
+  if (args[0] == 'speedup' && isNaN(args[1]) == false && args[1] <= 1000 && args[1] >= 0) {
+    console.log(args[1] + '% increased Speed.');
+    speedIncreased = args[1];
+  }
+
+  //SC Command
+  if (args[0] == 'points' && isNaN(args[1]) == false && args[1] <= 100 && args[1] >= -100) {
+    console.log(`You got ${Math.floor(args[1])} points.`);
+    sc = sc + Math.floor(args[1]);
+  }
+
+  //Home Command
+  if (args[0] == 'home') {
+    console.log(`Teleporting home...`);
+    player.x = 100;
+    player.y = 1100;
+    current_loc = 1;
+    opacity = 1;
+  }
+
+  //Arena Command
+  if (args[0] == 'arena') {
+    console.log(`Teleporting arena...`);
+    player.x = 50;
+    player.y = 250;
+    current_loc = 0;
+    opacity = 1;
+  }
+
+  //Restart Command
+  if (args[0] == 'restart') {
+    console.log(`Restarting...`);
+    restart_on_death();
+  }
+
+  document.getElementById('cons').value = '';
 }
 class Shop {
   constructor(x, y, camX, camY) {
@@ -240,7 +390,7 @@ class Exp {
     context.fillStyle = ("#00FFFF");
     context.fillRect(this.x, this.y, this.unitExp, 10);
     context.font = "30px Comic Sans MS";
-    context.fillStyle = "rgb(250, 254, 255, 1)";
+    context.fillStyle = "	#5F9EA0";
     context.textAlign = "center";
     context.fillText(this.expLevel, canvas.width / 2, 647);
     if (this.unitExp >= this.maxExp) {
@@ -395,13 +545,13 @@ class Player {
     }
 
     if (current_loc == 1) {
-      if (keys['40'] && this.y < 2500 - this.r || keys['83'] && this.y < 1500 - this.r) {
+      if (keys['40'] && this.y < 1500 - this.r || keys['83'] && this.y < 1500 - this.r) {
         this.y = this.y + this.spd;
       }
       if (keys['39'] && this.x < 500 - this.r || keys['68'] && this.x < 500 - this.r) {
         this.x = this.x + this.spd;
       }
-      if (keys['38'] && this.y > 2000 + this.r || keys['87'] && this.y > 1000 + this.r) {
+      if (keys['38'] && this.y > 1000 + this.r || keys['87'] && this.y > 1000 + this.r) {
         this.y = this.y - this.spd;
       }
       if (keys['37'] && this.x > 0 + this.r || keys['65'] && this.x > 0 + this.r) {
@@ -432,7 +582,7 @@ class Points {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = "rgb(57, 72, 99, 1)";
+    context.fillStyle = ("#c8a");
     context.beginPath();
     context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, this.r, 0, Math.PI * 2, true);
     context.fill();
@@ -461,7 +611,7 @@ class safeZone {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = "rgb(195, 225, 231, 1)";
+    context.fillStyle = ("#fadadd");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 200, 480);
   }
 }
@@ -477,7 +627,7 @@ class gameZone {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = "rgb(214, 222, 231, 1)";
+    context.fillStyle = ("#ffebee");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1500, 480);
   }
 }
@@ -719,7 +869,6 @@ class colider {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = ("#ffebee");
     context.fillRect(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 1, 480);
     //first Normal enemie
     if (player.x >= this.x && this.x == 1700 && level <= rangeNormal) {
@@ -780,3 +929,125 @@ class colider {
     }
   }
 }
+var opacity = 1;
+
+function black_screen() {
+  context.beginPath();
+  context.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+  context.fillRect(0, 0, width, height);
+
+  if (opacity > 0) {
+    opacity = opacity - 0.025;
+  } else opacity = 0;
+}
+
+function restart_on_death(){
+  Pr = 1;
+  s = 8;
+  sc = 0;
+  count = 1;
+  countS = 1;
+  level = 1;
+  col.x = 1700;
+  hp.hp = 750;
+  player.x = 100;
+
+  Pr = 1;
+  Pr1 = 1;
+  Pr2 = 1;
+
+  ShopSpd = 1;
+
+  rangeNormal = 9;
+  rangeGreen = 10;
+
+  secondRangeNormal = 4;
+  secondRangeGreen = 14;
+
+  property = 20;
+
+  rProtection = 1;
+  exp.exp = 750;
+  exp.unitExp = 0;
+  exp.maxExp = 750;
+  exp.plusExp = 125;
+  exp.expLevel = 0;
+  treesDeath = 2;
+  chooseEnemies.splice(0, chooseEnemies.length);
+  normalArr.splice(0, normalArr.length)
+  normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, 40, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 50, 100, height/2);
+  chooseEnemies = normalArr;
+}
+
+var portalTOhome = new Portal(100, height / 2 + 250, 400, height / 2 + 1060, 1, 100, height/2);
+var portalTOarena = new Portal(400, height / 2 + 1060, 100, height / 2 + 250, 0, 100, height/2);
+var hideout = new home(1, 1000, 100, height/2);
+var player = new Player(100, height / 2 + 100, 20, 5, 100, 100, height/2);
+var safe_zone = new safeZone(1, 200, 100, height/2);
+var safe_zone2 = new safeZone(1700, 200, 100, height/2);
+var game_zone = new gameZone(200, 200, 100, height/2);
+var col = new colider(1700, 200, 100, height/2, 100, height/2);
+var hp = new Hp(750, 370, 600);
+var exp = new Exp(750, 0, 750, 125, 0, 370, 630);
+var shop = new Shop(0, height / 2 + 1100, 100, height / 2);
+var abShop = new AbilityShop(0, height / 2 + 900);
+var Trees = new trees(68, 620);
+var points = [];
+for (var i = 1; i < 20; i++) {
+  points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8, 100, height/2);
+}
+var normalArr = [];
+normalArr[0] = new normalEnemies(Math.floor(Math.random() * (800 - 250)) + 250, Math.floor(Math.random() * (400 - 250)) + 250, normalR, Math.floor(Math.random() * 4) + 2, Math.floor(Math.random() * 4) + 2, 100, height/2);
+var slowArr = [];
+var beeArr = [];
+var chooseEnemies = [];
+chooseEnemies = normalArr;
+var fps = 100;
+
+function step_animate() {
+
+  setTimeout(function() {
+
+window.requestAnimationFrame(step_animate);
+  console.log(normalArr, chooseEnemies);
+  context.clearRect(0, 0, width, height);
+    col.draw();
+  context.fillStyle = ("#E0FFFF");
+  context.fillRect(0, 0, width, height);
+  safe_zone.draw();
+  safe_zone2.draw();
+  game_zone.draw();
+  hideout.draw();
+  portalTOhome.draw();
+  portalTOarena.draw();
+  for (var i = 1; i < points.length; i++) {
+    points[i].draw();
+    points[i].eat();
+    if (points[i].eat(true)) {
+      points[i] = new Points(Math.floor(Math.random() * 1500) + 208, Math.floor(Math.random() * 480) + 200, 8, 100, height/2);
+    }
+  }
+  for (var i = 0; i < chooseEnemies.length; i++) {
+    chooseEnemies[i].draw();
+    chooseEnemies[i].collision();
+    chooseEnemies[i].move();
+  }
+  player.draw();
+  shop.draw();
+  //abShop.draw();
+  shop.colision();
+  //abShop.colision();
+  //doing here nothing
+  hp.draw();
+  exp.draw();
+  context.font = "30px Comic Sans MS";
+  context.fillStyle = "Grey";
+  context.textAlign = "center";
+  context.fillText("Level " + level, canvas.width / 2, 35);
+  black_screen();
+
+
+
+}, 1000 / fps);
+}
+window.requestAnimationFrame(step_animate);
