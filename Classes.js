@@ -646,7 +646,7 @@ class BossEnemies {
     let dirY  = player.y - this.camY;
     this.camX += dirX/spdCamera;
     this.camY += dirY/spdCamera;
-    context.fillStyle = ("black");
+    context.fillStyle = "rgba(248, 213, 104, 1 )";
     context.beginPath();
     context.arc(this.x - player.x + width / 2 - dirX, this.y - player.y + height / 2 - dirY, 30, 0, Math.PI * 2, true);
     context.fill();
